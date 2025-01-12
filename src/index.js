@@ -8,7 +8,21 @@ import cors from "cors";
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:5173" }));
+
+// Update CORS configuration
+const allowedOrigins = ["http://localhost:5173", "https://hirelyai-site.netlify.app"];
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or curl)
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true, // Allow cookies and headers like Authorization
+  })
+);
 
 connectDB();
 

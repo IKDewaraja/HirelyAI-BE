@@ -2,7 +2,7 @@
 import OpenAI from "openai";
 import JobApplication from "../persistance/entities/jobApplications";
 
-const client = new OpenAI({ apiKey: -key });
+const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function generateRating(jobApplicationId) {
     const jobApplication = await JobApplication.findById(jobApplicationId).populate("job");
